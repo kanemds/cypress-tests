@@ -1,6 +1,9 @@
 describe('template spec', () => {
-  it('contain correct navbar hearder text', () => {
+  beforeEach(() => {
     cy.visit('/')
+  })
+
+  it('contain correct navbar hearder text', () => {
     cy.viewport(1300, 750)
     cy.get("[data-test='k-blog-header']").contains(/K-BLOG/i)
     cy.get("[data-test='k-blog-header']").should('contain.text', 'K-BLOG')
@@ -14,7 +17,6 @@ describe('template spec', () => {
   })
 
   it('responsive sdiebar', () => {
-    cy.visit('/')
     cy.viewport(550, 750)
     cy.window().then(win => {
       const windowWidth = win.innerWidth
@@ -30,7 +32,4 @@ describe('template spec', () => {
     cy.get("[data-test='drawer-side-bar-close']").click()
     cy.get("[data-test='sidebar-homebutton']").contains(/home/i).should('not.be.visible')
   })
-
-
-
 })
