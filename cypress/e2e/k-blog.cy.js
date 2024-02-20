@@ -5,9 +5,9 @@ describe('template spec', () => {
 
   it('contain correct navbar hearder text', () => {
     cy.viewport(1300, 750)
-    cy.get("[data-test='k-blog-header']").contains(/K-BLOG/i)
-    cy.get("[data-test='k-blog-header']").should('contain.text', 'K-BLOG')
-    cy.get("[data-test='k-blog-header']").should(div => {
+    cy.getDataTest('k-blog-header').contains(/K-BLOG/i)
+    cy.getDataTest('k-blog-header').should('contain.text', 'K-BLOG')
+    cy.getDataTest('k-blog-header').should(div => {
       console.log(div.text())
       let text = div.text().toLowerCase()
       let expectedText = 'k-blog'
@@ -26,10 +26,10 @@ describe('template spec', () => {
         console.log('not small')
       }
     })
-    cy.get("[data-test='sidebar-homebutton']").contains(/home/i).should('not.be.visible')
-    cy.get("[data-test='frontpage-DehazeIcon-sidebar-button-on']").click()
-    cy.get("[data-test='sidebar-homebutton']").contains(/home/i).should('be.visible')
-    cy.get("[data-test='drawer-side-bar-close']").click()
-    cy.get("[data-test='sidebar-homebutton']").contains(/home/i).should('not.be.visible')
+    cy.getDataTest('sidebar-homebutton').contains(/home/i).should('not.be.visible')
+    cy.getDataTest('frontpage-DehazeIcon-sidebar-button-on').click()
+    cy.getDataTest('sidebar-homebutton').contains(/home/i).should('be.visible')
+    cy.getDataTest('drawer-side-bar-close').click()
+    cy.getDataTest('sidebar-homebutton').contains(/home/i).should('not.be.visible')
   })
 })
