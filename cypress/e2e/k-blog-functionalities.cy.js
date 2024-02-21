@@ -1,35 +1,16 @@
+import singlePostFromOtherUser from "../data-test/k-blog/singlePostFromOtherUser"
+
 describe('Funcionalities test', () => {
+
+
+
+  const blogId = '65939ad0e92827fd946c9af4'
+
   beforeEach(() => {
-    cy.viewport(1400, 750)
-
-  })
-
-  let username = 'bbbb'
-  let email = `${username}@gmail.com`
-  let password = 'aaaaaaa1'
-  let confirm = password
-
-
-  it('Test register form', () => {
-    cy.visit('/register')
-    cy.contains(/create account/i)
-    cy.getDataTest('register-submit').click()
-    cy.contains(/All fields are required/i)
-    cy.getDataTest('register-input-username').type(username)
-    cy.getDataTest('register-input-email').type(email)
-    cy.getDataTest('register-input-password').type(password)
-    cy.getDataTest('register-input-confirm').type(confirm)
-    cy.getDataTest('register-submit').click()
-  })
-
-  it('Test user login', () => {
-    cy.visit('/login')
-    cy.getDataTest('login-form-username').type(username)
-    cy.getDataTest('login-form-password').type(password)
-    cy.getDataTest('login-form-submit').click()
-    cy.url().should('include', '/').then(() => {
-      cy.location('pathname').should('equal', '/')
+    cy.fixture('k-blog-user').then(data => {
+      cy.loginWithJwtToken(data.username, data.password)
     })
+    cy.viewport(1400, 800)
   })
 
   it('Search blog on main page', () => {
@@ -44,11 +25,18 @@ describe('Funcionalities test', () => {
     cy.getDataTest('search-bar-main-page').type('year')
     cy.getDataTest('search-blog-button-active').click()
     cy.getDataTest('search-blog-button-clear').click()
-  })
+    cy.getDataTest(blogId).should('exist').click()
+    cy.getDataTest(singlePostFromOtherUser.avtarButton).should('exist')
+    cy.getDataTest(singlePostFromOtherUser.subscribeButton).should('exist')
+    cy.getDataTest(singlePostFromOtherUser.bookmarkButton).should('exist')
+    cy.getDataTest(singlePostFromOtherUser.likeButton).should('exist')
 
-  it('MY post page', () => {
-    cy.visit('/blogs')
-
+    cy.getDataTest(singlePostFromOtherUser.subscribeButton).click()
+    cy.getDataTest(singlePostFromOtherUser.bookmarkButton).click()
+    cy.getDataTest(singlePostFromOtherUser.likeButton).click()
+    cy.wait(3000)
+    cy.getDataTest(singlePostFromOtherUser.avtarButton).click()
+    // cy.getDataTest(singlePostFromOtherUser.subscribeButton).click()
   })
 
 
