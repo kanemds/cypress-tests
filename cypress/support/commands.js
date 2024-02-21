@@ -27,3 +27,17 @@
 Cypress.Commands.add('getDataTest', (dataTestSelector) => {
   return cy.get(`[data-test=${dataTestSelector}]`)
 })
+
+
+
+Cypress.Commands.add('loginWithJwtToken', (name, password) => {
+  cy.visit('/login')
+  cy.getDataTest('persist-login').click()
+  cy.getDataTest('login-form-username').type(name)
+  cy.getDataTest('login-form-password').type(password)
+  cy.getDataTest('login-form-submit').click()
+  cy.url().should('include', '/').then(() => {
+    cy.location('pathname').should('equal', '/')
+  })
+
+})
