@@ -5,7 +5,6 @@ describe('login user with crud(subscribe, like and bookmark) and finally logout'
 
   const blogId = '65939ad0e92827fd946c9af4'
 
-
   beforeEach(() => {
     cy.fixture('k-blog-user').then(data => {
       cy.loginWithJwtToken(data.username, data.password)
@@ -51,7 +50,43 @@ describe('login user with crud(subscribe, like and bookmark) and finally logout'
     cy.getDataTest('navbar-avatar').click()
     cy.getDataTest('navbar-avatar-logout').click()
   })
+
+  it('check post list when is empty', () => {
+    cy.visit('/blogs')
+    cy.getDataTest('user-post-list').should('not.exist')
+    cy.getDataTest('user-post-container').within(() => {
+      cy.get('div').contains(/No Blogs are created on the current section/i)
+    })
+  })
+
+  it('create a post', () => {
+    const image = '/home/kanem/project/cypress/cypress/data-test/k-blog/images/sky.jpg'
+
+    cy.visit('/blogs/new')
+    cy.get("input[type='file']").should('exist')
+    cy.get("input[type='file']").scrollIntoView()
+    cy.get("input[type='file']").selectFile(image, { force: true })
+    cy.getDataTest('create-post-title').type('write a title in cypress command')
+    cy.getDataTest('create-post-body-text').type('create a body text in cypress commnad')
+    cy.getDataTest('create-post-submit-button').click()
+    cy.getDataTest('user-post-list').should('exist')
+    cy.getDataTest('user-post-list').within(() => {
+      cy.get('div').should('have.length', 1)
+    })
+  })
+
+  it.only('delete a post', () => {
+    cy.visit('/blogs')
+    cy.getDataTest('user-post-list').should('exist')
+    cy.getDataTest('pop-over-button').click()
+    // cy.getDataTest('delete-blog').click()
+
+
+  })
 })
+
+
+
 
 
 
