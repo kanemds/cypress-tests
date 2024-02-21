@@ -3,7 +3,6 @@ describe('test login user on blogs page', () => {
     const username = 'cate'
     const password = 'aaaaaaa1'
     cy.loginWithJwtToken(username, password)
-
   })
 
   it('login', () => {
