@@ -1,10 +1,10 @@
 import singlePostFromOtherUser from "../data-test/k-blog/singlePostFromOtherUser"
 
-describe('Funcionalities test', () => {
 
-
+describe('login user with crud(subscribe, like and bookmark) and finally logout', () => {
 
   const blogId = '65939ad0e92827fd946c9af4'
+
 
   beforeEach(() => {
     cy.fixture('k-blog-user').then(data => {
@@ -30,16 +30,28 @@ describe('Funcionalities test', () => {
     cy.getDataTest(singlePostFromOtherUser.subscribeButton).should('exist')
     cy.getDataTest(singlePostFromOtherUser.bookmarkButton).should('exist')
     cy.getDataTest(singlePostFromOtherUser.likeButton).should('exist')
-
     cy.getDataTest(singlePostFromOtherUser.subscribeButton).click()
     cy.getDataTest(singlePostFromOtherUser.bookmarkButton).click()
     cy.getDataTest(singlePostFromOtherUser.likeButton).click()
     cy.wait(3000)
     cy.getDataTest(singlePostFromOtherUser.avtarButton).click()
-    // cy.getDataTest(singlePostFromOtherUser.subscribeButton).click()
+    cy.visit('/blogs/subscribed')
+    cy.getDataTest('subscribed-page-blog-button').click()
+    cy.getDataTest('subscribed-page-blog-button-delete').click()
+    cy.wait(5000)
+    cy.visit('/blogs/bookmarks')
+    cy.getDataTest(`bookmark-blog-${blogId}`).should('exist').click()
+    cy.getDataTest('bookmark-page-button-delete').click()
+    cy.wait(5000)
+    cy.visit('/blogs/liked')
+    cy.getDataTest(`liked-blog-${blogId}`).should('exist').click()
+    cy.getDataTest('liked-page-button-delete').click()
+    cy.wait(5000)
+    cy.visit('/')
+    cy.getDataTest('navbar-avatar').click()
+    cy.getDataTest('navbar-avatar-logout').click()
   })
-
-
-
-
 })
+
+
+
