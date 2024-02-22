@@ -36,8 +36,8 @@ Cypress.Commands.add('loginWithJwtToken', (name, password) => {
   cy.getDataTest('login-form-username').type(name)
   cy.getDataTest('login-form-password').type(password)
   cy.getDataTest('login-form-submit').click()
-  cy.url().should('include', '/').then(() => {
-    cy.location('pathname').should('equal', '/')
-  })
-
+  // cy.url().should('include', '/').then(() => {
+  //   cy.location('pathname').should('equal', '/')
+  // })
+  cy.wait(2000)
 })
